@@ -10,23 +10,23 @@ ENV SOLR_VERSION 3.6.2
 # Packages.
 ##
 
-RUN apt-get install -y openjdk-7-jre-headless tar
+RUN apt-get install -y openjdk-7-jre-headless tar  vim telnet
 
 ##
 # Configure Solr 3.x.
 ##
 
-RUN mkdir -p /opt
-ADD http://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/apache-solr-$SOLR_VERSION.tgz /opt/apache-solr-$SOLR_VERSION.tgz
-RUN tar -C /opt --extract --file /opt/apache-solr-$SOLR_VERSION.tgz
-RUN mv /opt/apache-solr-$SOLR_VERSION /opt/solr
+RUN mkdir -p /var
+ADD http://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/apache-solr-$SOLR_VERSION.tgz /var/apache-solr-$SOLR_VERSION.tgz
+RUN tar -C /var --extract --file /var/apache-solr-$SOLR_VERSION.tgz
+RUN mv /var/apache-solr-$SOLR_VERSION /var/solr
 
 ##
 # Add search_api configuration.
 ##
 
-ADD ./conf/solr /opt/search_api
-RUN rsync -avz /opt/search_api/* /opt/solr/example/solr/conf/
+ADD ./conf/solr /var/search_api
+RUN rsync -avz /var/search_api/* /var/solr/example/solr/conf/
 
 ##
 # Startup scripts.
