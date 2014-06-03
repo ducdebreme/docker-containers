@@ -5,7 +5,7 @@
 # Comment: This is a script to enforce permissions best practices.
 
 BASE='/var/www'
-USER='deployer'
+USER='www-data'
 GROUP='www-data'
 
 setPermissions() {
@@ -18,6 +18,9 @@ setPermissions() {
   chown -R ${USER}:${GROUP} ${BASE}/shared/private
   find ${BASE}/shared/private -type d -exec chmod 2775 {} \;
   find ${BASE}/shared/private -type f -exec chmod 664 {} \;
+
+  # root 
+  chown -R root:root /root
 
   # Make sure we have a paper trail.
   logger Permissions have been updated.
