@@ -10,6 +10,8 @@ sudo docker run --name Drupal7 -t -i -v $(pwd):/var/www -v $(pwd)/logs:/var/log 
 
 sudo docker run --name Drupal6 -t -i -v $(pwd):/var/www -v $(pwd)/logs:/var/log -p 3306:3306 -p 80:80  ducdebreme/lamp53 bash
 
+# to allow ssh
+sudo docker run --name "$INSTANCE-Lamp" --link "$INSTANCE-Solr":solr -t -i -v $(pwd):/var/www -v $(pwd)/_docker/logs:/var/log -v $(pwd)/.ssh:/root/.ssh -p 3306:3306 -p 80:80 -p 2222:22 -e "BACKUP_SOURCE=$BACKUP_SOURCE" ducdebreme/lamp53 bash
 
 # ====== next steps in container
 bash /root/start.sh &
