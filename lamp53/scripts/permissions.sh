@@ -10,14 +10,9 @@ GROUP='www-data'
 
 setPermissions() {
   # Public files.
-  chown -R ${USER}:${GROUP} ${BASE}/shared/files
-  find ${BASE}/shared/files -type d -exec chmod 2775 {} \;
-  find ${BASE}/shared/files -type f -exec chmod 664 {} \;
-
-  # Private files.
-  chown -R ${USER}:${GROUP} ${BASE}/shared/private
-  find ${BASE}/shared/private -type d -exec chmod 2775 {} \;
-  find ${BASE}/shared/private -type f -exec chmod 664 {} \;
+  chown -R ${USER}:${GROUP} ${BASE}
+  find ${BASE} -type d -exec chmod 2775 {} \;
+  find ${BASE} -type f -exec chmod 664 {} \;
 
   # root 
   chown -R root:root /root

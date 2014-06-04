@@ -20,6 +20,9 @@ RUN mkdir -p /var
 ADD http://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/apache-solr-$SOLR_VERSION.tgz /var/apache-solr-$SOLR_VERSION.tgz
 RUN tar -C /var --extract --file /var/apache-solr-$SOLR_VERSION.tgz
 RUN mv /var/apache-solr-$SOLR_VERSION /var/solr
+# delete obsolete file
+RUN rm /var/apache-solr-$SOLR_VERSION.tgz
+RUN rm -rf /var/solr/docs
 
 ##
 # Add search_api configuration.
