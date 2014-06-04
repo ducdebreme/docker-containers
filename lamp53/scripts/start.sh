@@ -84,7 +84,7 @@ fi
 # Permissions.
 ##
 
-chown -R deployer:www-data /var/www
+chown -R www-data:www-data /var/www
 
 ##
 # Rsyslog.
@@ -93,6 +93,9 @@ chown -R deployer:www-data /var/www
 if [ -f '/etc/conf/rsyslog/rsyslog.conf' ]; then
   scp /etc/conf/rsyslog/rsyslog.conf /etc/rsyslog.conf
 fi
+
+# refer to https://github.com/dotcloud/docker/issues/2569#issuecomment-27973910
+env | grep _ >> /etc/environment
 
 ##
 # Supervisord.
