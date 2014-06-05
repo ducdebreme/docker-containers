@@ -10,7 +10,7 @@ GROUP='www-data'
 
 setPermissions() {
   # Public files.
-  chown -R ${USER}:${GROUP} ${BASE}
+  chgrp -R ${GROUP} ${BASE}
   find ${BASE} -type d -exec chmod 2775 {} \;
   find ${BASE} -type f -exec chmod 664 {} \;
 
