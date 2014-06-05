@@ -4,7 +4,7 @@
 FROM        previousnext/base:latest
 MAINTAINER  Nick Schuch <nick@previousnext.com.au>
 
-ENV SOLR_VERSION 4.7.0
+ENV SOLR_VERSION 4.8.1
 
 ##
 # Packages.
@@ -16,17 +16,17 @@ RUN apt-get install -y openjdk-7-jre-headless tar
 # Configure Solr 4.x.
 ##
 
-RUN mkdir -p /opt
-ADD http://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/solr-$SOLR_VERSION.tgz /opt/solr-$SOLR_VERSION.tgz
-RUN tar -C /opt --extract --file /opt/solr-$SOLR_VERSION.tgz
-RUN mv /opt/solr-$SOLR_VERSION /opt/solr
+RUN mkdir -p /var
+ADD http://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/solr-$SOLR_VERSION.tgz /var/solr-$SOLR_VERSION.tgz
+RUN tar -C /var --extract --file /var/solr-$SOLR_VERSION.tgz
+RUN mv /var/solr-$SOLR_VERSION /var/solr
 
 ##
 # Add search_api configuration.
 ##
 
-ADD ./conf/solr /opt/search_api
-RUN rsync -avz /opt/search_api/* /opt/solr/example/solr/collection1/conf/
+ADD ./conf/solr /var/search_api
+RUN rsync -avz /var/search_api/* /var/solr/example/solr/collection1/conf/
 
 ##
 # Startup scripts.
@@ -41,6 +41,6 @@ RUN chmod 755 /root/start.sh
 
 ADD ./conf/supervisor/supervisord.conf /etc/supervisord.conf
 
-EXPOSE 8983
+EXPOSE 8983 22
 
 CMD ["/root/start.sh"]

@@ -44,6 +44,6 @@ RUN chmod 755 /root/start.sh
 
 ADD ./conf/supervisor/supervisord.conf /etc/supervisord.conf
 
-EXPOSE 8983
+EXPOSE 8983 22
 
 CMD ["/root/start.sh"]
