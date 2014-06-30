@@ -1,5 +1,7 @@
 #!/bin/bash
 
+env
+
 ##
 # Copy files into specific directories.
 ##
@@ -85,6 +87,11 @@ fi
 ##
 
 chown -R www-data:www-data /var/www
+
+if [ -f '/root/.ssh' ]; then
+  chown -R root /root/.ssh
+  chown 600 /root/.ssh/*
+fi
 
 ##
 # Rsyslog.
