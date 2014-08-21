@@ -4,7 +4,7 @@
 FROM        previousnext/base:latest
 MAINTAINER  Nick Schuch <nick@previousnext.com.au>
 
-ENV SOLR_VERSION 4.8.1
+ENV SOLR_VERSION 4.9.0
 
 ##
 # Packages.
