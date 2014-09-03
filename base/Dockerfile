@@ -1,7 +1,7 @@
 # This is a base container for PNX docker containers.
 
 FROM        ubuntu:12.04
-MAINTAINER  Nick Schuch <nick@previousnext.com.au>
+MAINTAINER  Stefan Kuehn <ducdebreme@early-dance.de>
 
 ##
 # APT.
@@ -19,7 +19,7 @@ RUN ln -fs /bin/true /sbin/initctl
 ##
 
 # APT.
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install fail2ban vim git curl wget pwgen python-setuptools vim-tiny sudo python-software-properties cron unzip
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install fail2ban vim git curl wget pwgen python-setuptools vim-tiny sudo python-software-properties cron unzip tar
 
 ##
 # Users.

@@ -2,7 +2,7 @@
 #
 
 FROM        previousnext/base:latest
-MAINTAINER  Nick Schuch <nick@previousnext.com.au>
+MAINTAINER  Stefan Kuehn <ducdebreme@early-dance.de>
 
 ENV SOLR_VERSION 3.6.2
 
@@ -10,19 +10,19 @@ ENV SOLR_VERSION 3.6.2
 # Packages.
 ##
 
-RUN apt-get install -y openjdk-7-jre-headless tar  vim telnet
+RUN apt-get install -y openjdk-7-jre-headless tar && \
+    apt-get clean
 
 ##
 # Configure Solr 3.x.
 ##
 
-RUN mkdir -p /var
-ADD http://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/apache-solr-$SOLR_VERSION.tgz /var/apache-solr-$SOLR_VERSION.tgz
-RUN tar -C /var --extract --file /var/apache-solr-$SOLR_VERSION.tgz
-RUN mv /var/apache-solr-$SOLR_VERSION /var/solr
-# delete obsolete file
-RUN rm /var/apache-solr-$SOLR_VERSION.tgz
-RUN rm -rf /var/solr/docs
+# download and extract apachesolr code - do it in one step to save image space
+RUN mkdir -p /var && \
+    wget -qO- http://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/apache-solr-$SOLR_VERSION.tgz | tar xvz -C /var && \
+    mv /var/apache-solr-$SOLR_VERSION /var/solr && \
+    rm -rf /var/solr/docs
+
 
 ##
 # Add search_api configuration.

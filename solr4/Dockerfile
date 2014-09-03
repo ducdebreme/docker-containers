@@ -2,7 +2,7 @@
 #
 
 FROM        previousnext/base:latest
-MAINTAINER  Nick Schuch <nick@previousnext.com.au>
+MAINTAINER  Stefan Kuehn <ducdebreme@early-dance.de>
 
 ENV SOLR_VERSION 4.9.0
 
@@ -10,16 +10,17 @@ ENV SOLR_VERSION 4.9.0
 # Packages.
 ##
 
-RUN apt-get install -y openjdk-7-jre-headless tar
+RUN apt-get install -y openjdk-7-jre-headless tar  && \
+    apt-get clean
 
 ##
 # Configure Solr 4.x.
 ##
 
-RUN mkdir -p /var
-ADD http://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/solr-$SOLR_VERSION.tgz /var/solr-$SOLR_VERSION.tgz
-RUN tar -C /var --extract --file /var/solr-$SOLR_VERSION.tgz
-RUN mv /var/solr-$SOLR_VERSION /var/solr
+# download and extract apachesolr code - do it in one step to save image space
+RUN mkdir -p /var && \
+    wget -qO- http://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/solr-$SOLR_VERSION.tgz | tar xvz -C /var && \
+    mv /var/solr-$SOLR_VERSION /var/solr 
 
 ##
 # Add search_api configuration.

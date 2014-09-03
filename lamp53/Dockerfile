@@ -1,16 +1,17 @@
 # This is a docker Drupal environment.
 
 FROM        previousnext/base:latest
-MAINTAINER  Nick Schuch <nick@previousnext.com.au>
+MAINTAINER  Stefan Kuehn <ducdebreme@early-dance.de>
 
-RUN apt-get update -y
 
 ##
 # All apt-get at the start
 ##
 
-RUN apt-get upgrade -y
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install apache2 libapache2-mod-php5 php5-curl php5-mysql php5-gd php5-mcrypt php-pear php5-pspell nullmailer mysql-server php5-xcache memcached php5-memcache p7zip unzip vim telnet build-essential
+RUN apt-get update -y && \
+    apt-get upgrade -y && \
+    DEBIAN_FRONTEND=noninteractive apt-get -y install apache2 libapache2-mod-php5 php5-curl php5-mysql php5-gd php5-mcrypt php-pear php5-pspell nullmailer mysql-server php5-xcache memcached php5-memcache p7zip unzip vim telnet build-essential && \
+    apt-get clean
 ADD ./scripts/foreground.sh /etc/apache2/foreground.sh
 RUN rm -rf /var/www/
 RUN chmod 755 /etc/apache2/foreground.sh
@@ -34,30 +35,23 @@ ADD ./conf/php/php.ini /etc/php5/apache2/php.ini
 ADD ./conf/php/php.ini /etc/php5/cli/php.ini
 
 # Composer.
-RUN curl -sS https://getcomposer.org/installer | php
-RUN mv composer.phar /usr/local/bin/composer && chmod +x /usr/local/bin/composer
-
 # Phing.
-RUN pear channel-discover pear.phing.info
-RUN pear install phing/phing
-
 # Drush.
-RUN pear channel-discover pear.drush.org
-RUN pear install Console_Table
-RUN pear install drush/drush
-
 # IRC.
-RUN pear install Net_SmartIRC
-
 # Xhprof.
-# RUN apt-get install -y build-essential
-RUN pear channel-update pear.php.net
-RUN pecl install xhprof-beta
+RUN curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer && chmod +x /usr/local/bin/composer && \
+    pear channel-discover pear.phing.info && \
+    pear install phing/phing && \
+    pear channel-discover pear.drush.org && \
+    pear install Console_Table && \
+    pear install drush/drush && \
+    pear install Net_SmartIRC && \
+    pear channel-update pear.php.net && \
+    pecl install xhprof-beta && \
+    pear channel-update pear.php.net && \
+    pecl install xdebug 
 
-# Xdebug.
-# RUN apt-get install -y build-essential
-RUN pear channel-update pear.php.net
-RUN pecl install xdebug
 
 ##
 # Mysql.
