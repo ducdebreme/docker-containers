@@ -1,5 +1,7 @@
 #!/bin/bash
 
+env
+
 ##
 # Copy files into specific directories.
 ##
@@ -8,14 +10,16 @@
 # Apache.
 ##
 
+mkdir -p /var/log/apache2
+
 if [ -f '/etc/conf/apache/apache2.conf' ]; then
   scp /etc/conf/apache/apache2.conf /etc/apache2/apache2.conf
 fi
 
 if [ -f '/etc/conf/apache/vhost.conf' ]; then
   rm -f /etc/apache2/sites-enabled/*
-  scp /etc/conf/apache/vhost.conf /etc/apache2/sites-available/drupal.conf
-  ln -s /etc/apache2/sites-available/drupal.conf /etc/apache2/sites-enabled/drupal.conf
+  scp /etc/conf/apache/vhost.conf /etc/apache2/sites-available/drupal
+  ln -s /etc/apache2/sites-available/drupal /etc/apache2/sites-enabled/drupal
 fi
 
 ##
@@ -43,6 +47,17 @@ chown -R mysql:mysql /var/lib/mysql
 if [ -d '/etc/conf/cron' ]; then
   scp /etc/conf/cron/* /etc/cron.d/
 fi
+
+##
+# Nullmailer.
+##
+
+if [ ! -z "${NULLMAILER_REMOTE}" ]; then
+  echo ${NULLMAILER_REMOTE} > /etc/nullmailer/remotes
+fi
+mkfifo /var/spool/nullmailer/trigger
+chmod 0622 /var/spool/nullmailer/trigger
+chown mail:root /var/spool/nullmailer/trigger
 
 ##
 # SSHD.
@@ -73,7 +88,13 @@ fi
 # Permissions.
 ##
 
-chown -R deployer:www-data /var/www
+chown -R www-data:www-data /var/www
+chmod +x /root/permissions.sh
+
+if [ -f '/root/.ssh' ]; then
+  chown -R root /root/.ssh
+  chown 600 /root/.ssh/*
+fi
 
 ##
 # Rsyslog.
@@ -83,16 +104,8 @@ if [ -f '/etc/conf/rsyslog/rsyslog.conf' ]; then
   scp /etc/conf/rsyslog/rsyslog.conf /etc/rsyslog.conf
 fi
 
-##
-# Nullmailer.
-##
-
-if [ -z "$NULLMAILER_REMOTE" ]; then
-  echo $NULLMAILER_REMOTE > /etc/nullmailer/remotes
-fi
-mkfifo /var/spool/nullmailer/trigger
-chmod 0622 /var/spool/nullmailer/trigger
-chown mail:root /var/spool/nullmailer/trigger
+# refer to https://github.com/dotcloud/docker/issues/2569#issuecomment-27973910
+env | grep _ >> /etc/environment
 
 ##
 # Supervisord.
