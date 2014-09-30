@@ -27,6 +27,7 @@ RUN cd /etc/apache2/mods-enabled && ln -s ../mods-available/rewrite.load .
 
 # We are removing this because we deal with it in our own custom apache2.conf.
 RUN rm /etc/apache2/mods-enabled/mpm_prefork.conf
+ADD ./conf/apache2/envvars /etc/apache2/
 
 # vHost.
 RUN rm -f /etc/apache2/sites-enabled/*
