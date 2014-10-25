@@ -5,9 +5,9 @@
 ##
 
 # apache
-if [ -f '/etc/conf/apache/vhost.conf' ]; then
+if [ -f '/etc/conf/apache2/vhost.conf' ]; then
   rm -f /etc/apache2/sites-enabled/*
-  cp /etc/conf/apache/vhost.conf /etc/apache2/sites-available/drupal
+  cp /etc/conf/apache2/vhost.conf /etc/apache2/sites-available/drupal
   a2ensite drupal
 fi
 
