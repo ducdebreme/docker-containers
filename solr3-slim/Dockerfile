@@ -25,7 +25,7 @@ RUN apt-get update -y && \
 # download and extract apachesolr code - do it in one step to save image space
 RUN mkdir -p /var && \
     wget -qO- http://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/apache-solr-$SOLR_VERSION.tgz | tar xvz -C /var && \
-    mv /var/solr-$SOLR_VERSION /var/solr 
+    mv /var/apache-solr-$SOLR_VERSION /var/solr 
 
 
 # our data directory
