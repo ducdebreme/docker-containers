@@ -11,7 +11,7 @@ MAINTAINER  Stefan Kuehn <ducdebreme@early-dance.de>
 # We add the stable PHP 5.5 repository.
 RUN apt-get update -y && \
     apt-get upgrade -y && \
-    DEBIAN_FRONTEND=noninteractive apt-get -y install apache2 php5 libapache2-mod-php5 php5-curl php5-mysql php5-gd php5-mcrypt php-pear php5-dev php5-pspell nullmailer libssl-dev mysql-server memcached php5-memcache p7zip unzip vim telnet build-essential && \
+    DEBIAN_FRONTEND=noninteractive apt-get -y install apache2 php5 libapache2-mod-php5 php5-curl php5-mysql php5-gd php5-mcrypt php-pear php5-dev php5-pspell nullmailer libssl-dev mysql-server memcached php5-memcache p7zip p7zip-full unzip vim telnet build-essential && \
     apt-get -y dist-upgrade && \
     apt-get clean
 ADD ./scripts/foreground.sh /etc/apache2/foreground.sh

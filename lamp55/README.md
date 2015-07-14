@@ -17,7 +17,7 @@ Provides a docker base LAMP container.
 
 
 # run as daemon
-    docker/logs:/var/log -v ~/.ssh_docker:/root/.ssh -P ducdebreme/lamp55 
+    docker/logs:/var/log -v ~/.ssh_docker:/root/.ssh -d -P ducdebreme/lamp55 
 
 # terminal
     sudo docker run --name l55 -i -t -v $(pwd):/var/www -v $(pwd)/_docker/logs:/var/log -v ~/.ssh_docker:/root/.ssh -P ducdebreme/lamp55 bash
